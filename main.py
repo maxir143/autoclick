@@ -25,7 +25,7 @@ print('por obvias razones se recomienda pausar el programa cuando se necesite ha
 def false_Click():
     global state, pointsInScreen
     for pos in pointsInScreen:
-        time.sleep(5)
+        time.sleep(2)
         if state == 2:
             break
         mouse.position = pos
