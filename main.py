@@ -11,16 +11,19 @@ state = 0
 
 print('CONTROLES :')
 print('')
-print('Alt ---> guarda la cordenada donde se hara un click')
+print('Ctrl ---> Guarda la cordenada donde se hara un click')
 print('')
-print('Ctrl + S ---> empezas el script :')
+print('Shift + S ---> Empezas el script')
 print('')
-print('Ctrl + p ---> pausar/reanudar el script :')
+print('Shift + p ---> Pausar/reanudar el script ')
 print('')
-print('Shift  ---> Salir del programa:')
+print('Shift + R ---> Borrar coordenadas previas')
+print('')
+print('Alt  ---> Salir del programa:')
 print('')
 print('Una vez iniciada la secuencia tu mouse brincará de cordenada en cordenada')
-print('por obvias razones se recomienda pausar el programa cuando se necesite hacer algo con el mouse')
+print('por obvias razones se recomienda pausar el programa (Shift + p)')
+print('o terminar el programa (Alt) cuando se necesite hacer algo con el mouse')
 
 def false_Click():
     global state, pointsInScreen
@@ -62,7 +65,7 @@ def pause_click():
         print('no pausita')
         state = 0
         start_click()
-    else:
+    elif state == 1:
         state = 2
         print('pausita')
 
@@ -71,10 +74,10 @@ def end():
     sys.exit()
 
 with keyboard.GlobalHotKeys({
-        '<alt>': record_click,
-        '<ctrl>+s': start_click,
-        '<ctrl>+p': pause_click,
-        '<ctrl>+r': reset_click,
-        '<shift>': end}) as l:
+        '<ctrl>': record_click,
+        '<shift>+s': start_click,
+        '<shift>+p': pause_click,
+        '<shift>+r': reset_click,
+        '<alt>': end}) as l:
     l.join()
 
