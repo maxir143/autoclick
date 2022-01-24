@@ -3,11 +3,17 @@ import sys
 from pynput.mouse import Button, Controller
 from pynput import keyboard
 import threading
-global state,pointsInScreen
+from playsound import playsound
+from pathlib import Path
 
+
+global state,pointsInScreen,sound,mouse
 mouse = Controller()
 pointsInScreen = []
 state = 0
+sound = 1
+
+
 
 print('CONTROLES :')
 print('')
@@ -25,6 +31,12 @@ print('Una vez iniciada la secuencia tu mouse brincará de cordenada en cordenad
 print('por obvias razones se recomienda pausar el programa (Shift + p)')
 print('o terminar el programa (Alt) cuando se necesite hacer algo con el mouse')
 
+def playSound(snd): #FALTA IMPLEMENTAR SONIDOS
+    path = Path(snd)
+    path = path.absolute()
+    #print(path)
+    #playsound(path)
+
 def false_Click():
     global state, pointsInScreen
     for pos in pointsInScreen:
@@ -41,6 +53,7 @@ def false_Click():
 def record_click():
     global state, pointsInScreen
     if state == 0:
+        playSound('click.wav')
         pointsInScreen.append(mouse.position)
         print('cordenada agregada: {}'.format(mouse.position))
 
