@@ -4,14 +4,13 @@ from pynput.mouse import Button, Controller
 from pynput import keyboard
 import threading
 from playsound import playsound
-from pathlib import Path
+import os
 
 global state,pointsInScreen,sound,mouse
 mouse = Controller()
 pointsInScreen = []
 state = 0
 
-print('CONTROLES :')
 print('')
 print('<Ctrl>       ---> Guarda la cordenada donde se hara un click')
 print('')
@@ -24,8 +23,6 @@ print('')
 print('Una vez iniciada la secuencia tu mouse brincará de cordenada en cordenada')
 print('por obvias razones se recomienda pausar el programa (Shift + p)')
 print('o terminar el programa (Alt) cuando se necesite hacer algo con el mouse')
-
-import os
 
 def resource_path(relative_path):
     if hasattr(sys, '_MEIPASS'):
