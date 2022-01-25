@@ -12,13 +12,11 @@ pointsInScreen = []
 state = 0
 
 print('')
-print('<Ctrl>       ---> Guarda la cordenada donde se hara un click')
+print('<Ctrl>   ---> Guarda la cordenada donde se hara un click')
 print('')
 print('<Shift>  ---> Empezar/Pausar/reanudar el script')
 print('')
-print('<Ctrl> + r  ---> Borrar coordenadas previas')
-print('')
-print('<Alt>        ---> Salir del programa:')
+print('<Alt>    ---> Salir del programa')
 print('')
 print('Una vez iniciada la secuencia tu mouse brincará de cordenada en cordenada')
 print('por obvias razones se recomienda pausar el programa (Shift + p)')
@@ -85,6 +83,5 @@ def end():
 with keyboard.GlobalHotKeys({
         '<ctrl>': record_click,
         '<shift>': start_click,
-        '<ctrl>+r': reset_click,
         '<alt>': end}) as s:
     s.join()
