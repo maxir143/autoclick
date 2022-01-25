@@ -15,7 +15,7 @@ print('CONTROLES :')
 print('')
 print('<Ctrl>       ---> Guarda la cordenada donde se hara un click')
 print('')
-print('<Shift>      ---> Empezar/Pausar/reanudar el script')
+print('<Shift> + s  ---> Empezar/Pausar/reanudar el script')
 print('')
 print('<shift> + r  ---> Borrar coordenadas previas')
 print('')
@@ -52,19 +52,18 @@ def record_click():
         pointsInScreen.append(mouse.position)
         print('cordenada agregada: {}'.format(mouse.position))
 
-def start_click():
+def start_click(message='comenzar el script'):
     global state, pointsInScreen
     if state == 0:
         if pointsInScreen:
-            print('comenzar el script')
+            print(message)
             playSound('resume.wav')
             state = 1
             thread = threading.Thread(target=false_Click)
             thread.start()
     elif state == 2:
-        print('reanudar')
         state = 0
-        start_click()
+        start_click('reanudar')
     elif state == 1:
         state = 2
         print('pausa')
