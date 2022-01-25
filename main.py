@@ -10,6 +10,7 @@ global state,pointsInScreen,sound,mouse
 mouse = Controller()
 pointsInScreen = []
 state = 0
+sound = 0
 
 print('')
 print('<Ctrl>   ---> Guarda la cordenada donde se hara un click')
@@ -28,7 +29,8 @@ def resource_path(relative_path):
     return os.path.join(os.path.abspath("."), relative_path)
 
 def playSound(snd):
-    playsound(resource_path(snd))
+    if sound:
+        playsound(resource_path(snd))
 
 def false_Click():
     global state, pointsInScreen
