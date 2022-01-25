@@ -15,9 +15,9 @@ print('CONTROLES :')
 print('')
 print('<Ctrl>       ---> Guarda la cordenada donde se hara un click')
 print('')
-print('<Shift> + s  ---> Empezar/Pausar/reanudar el script')
+print('<Shift>  ---> Empezar/Pausar/reanudar el script')
 print('')
-print('<shift> + r  ---> Borrar coordenadas previas')
+print('<Ctrl> + r  ---> Borrar coordenadas previas')
 print('')
 print('<Alt>        ---> Salir del programa:')
 print('')
@@ -25,11 +25,15 @@ print('Una vez iniciada la secuencia tu mouse brincará de cordenada en cordenad
 print('por obvias razones se recomienda pausar el programa (Shift + p)')
 print('o terminar el programa (Alt) cuando se necesite hacer algo con el mouse')
 
+import os
+
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
 def playSound(snd):
-    path = Path('sounds')
-    path = path.absolute() / snd
-    print(path)
-    playsound(path)
+    playsound(resource_path(snd))
 
 def false_Click():
     global state, pointsInScreen
@@ -83,7 +87,7 @@ def end():
 
 with keyboard.GlobalHotKeys({
         '<ctrl>': record_click,
-        '<shift>+s': start_click,
-        '<shift>+r': reset_click,
+        '<shift>': start_click,
+        '<ctrl>+r': reset_click,
         '<alt>': end}) as s:
     s.join()
