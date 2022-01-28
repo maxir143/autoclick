@@ -7,22 +7,28 @@ from playsound import playsound
 import os
 import PySimpleGUI as sg
 
-global state,pointsInScreen,sound,mouse
+global state, pointsInScreen, sound, mouse
 mouse = Controller()
 pointsInScreen = []
 state = 0
 sound = 0
 
+
 def printInUi(txt=None):
     if txt:
         window['display_text'].update(txt)
+
+
 def resource_path(relative_path):
     if hasattr(sys, '_MEIPASS'):
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)
+
+
 def playSound(snd):
     if sound:
         playsound(resource_path(snd))
+
 
 def false_Click():
     global state, pointsInScreen
@@ -38,6 +44,7 @@ def false_Click():
     if state == 1:
         false_Click()
 
+
 def record_click():
     global state, pointsInScreen
     if state == 0:
@@ -49,11 +56,30 @@ def record_click():
 
 
 def updateCordListUi(cords):
-    window["cords_list"].update(cords)
-    print(cords)
+    format_cord = []
+    for i in cords:
+        format_cord.append('x: {}, y: {}'.format(i[0], i[1]))
+
+    window["cords_list"].update(format_cord)
+    if cords:
+        window['btn_erase'].update(disabled=False)
+        index = len(pointsInScreen) - 1
+        window['cords_list'].update(set_to_index=[index], scroll_to_index=index)
+    else:
+        window['btn_erase'].update(disabled=True)
+
 
 def focusUi():
     window.BringToFront()
+
+
+def eraseCordSelected(list="cords_list"):
+    index = window[list].get()
+    if index:
+        index = window["cords_list"].GetIndexes()
+        printInUi('Coord deleted: {}'.format(pointsInScreen[index[0]]))
+        pointsInScreen.pop(index[0])
+        updateCordListUi(pointsInScreen)
 
 
 def start_click(message='Starting task'):
@@ -74,6 +100,7 @@ def start_click(message='Starting task'):
         printInUi('Pause')
         playSound('pause.wav')
 
+
 def reset_click():
     global state, pointsInScreen
     state = 0
@@ -81,17 +108,23 @@ def reset_click():
     updateCordListUi(pointsInScreen)
     printInUi('Coords reset successfully')
     playSound('pause.wav')
+
+
 def end():
     sys.exit()
 
-#//////////////////////////////////////
-#//////////// UI //////////////////////
-#//////////////////////////////////////
+
+# //////////////////////////////////////
+# //////////// UI //////////////////////
+# //////////////////////////////////////
 
 # Define the window's contents
-layout = [[sg.Text('Press Ctrl',key='display_text')],[sg.Button('Start',key='btn_start'),sg.Button('Reset',key='btn_reset'),sg.Button('Quit')],[sg.Listbox([],size=(25, 10), enable_events=True, key='cords_list')]]
+layout = [[sg.Text('Press Ctrl', key='display_text', font=("Helvetica", "10"))],
+          [sg.Button('Start', key='btn_start', tooltip='Start/Stop <SHIFT>'),sg.Button('Erase', key='btn_erase', disabled=True), sg.Button('Reset', key='btn_reset'), sg.Button('Quit')],
+          [sg.Listbox([], size=(25, 5), enable_events=True, key='cords_list')],
+          [[sg.Text('Record click cord <CTRL> Start/Stop script <SHIFT>', key='info_text', font=("Helvetica", "8"),size=(25, 5))]]]
 # Create the window
-window = sg.Window('Autoclick', layout,size=(220, 200),icon=resource_path('favicon.ico'), return_keyboard_events=True,use_default_focus=True)
+window = sg.Window('Autoclick', layout, size=(220, 200), icon=resource_path('favicon.ico'), return_keyboard_events=True,use_default_focus=True)
 # working main window
 
 with keyboard.GlobalHotKeys({
@@ -106,6 +139,8 @@ with keyboard.GlobalHotKeys({
             start_click()
         elif event == 'btn_reset':
             reset_click()
+        elif event == 'btn_erase':
+            eraseCordSelected()
         window.TKroot.focus_force()
     s.join()
 window.close()
