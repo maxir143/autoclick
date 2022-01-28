@@ -75,7 +75,6 @@ def updateCordListUi(cords):
             state = 0
 
 
-
 def focusUi():
     window.BringToFront()
 
