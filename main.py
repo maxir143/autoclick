@@ -63,10 +63,17 @@ def updateCordListUi(cords):
     window["cords_list"].update(format_cord)
     if cords:
         window['btn_erase'].update(disabled=False)
-        index = len(pointsInScreen) - 1
-        window['cords_list'].update(set_to_index=[index], scroll_to_index=index)
+        window['btn_start'].update(disabled=False)
+        window['btn_reset'].update(disabled=False)
+        window['cords_list'].update(set_to_index=[len(pointsInScreen) - 1], scroll_to_index=len(pointsInScreen) - 1)
     else:
         window['btn_erase'].update(disabled=True)
+        window['btn_start'].update(disabled=True)
+        window['btn_reset'].update(disabled=True)
+        global state
+        if state == 2:
+            state = 0
+
 
 
 def focusUi():
@@ -74,12 +81,13 @@ def focusUi():
 
 
 def eraseCordSelected(list="cords_list"):
-    index = window[list].get()
-    if index:
-        index = window["cords_list"].GetIndexes()
-        printInUi('Coord deleted: {}'.format(pointsInScreen[index[0]]))
-        pointsInScreen.pop(index[0])
-        updateCordListUi(pointsInScreen)
+    if state == 0 or state == 2:
+        index = window[list].get()
+        if index:
+            index = window["cords_list"].GetIndexes()
+            printInUi('Coord deleted: {}'.format(pointsInScreen[index[0]]))
+            pointsInScreen.pop(index[0])
+            updateCordListUi(pointsInScreen)
 
 
 def start_click(message='Starting task'):
@@ -120,7 +128,7 @@ def end():
 
 # Define the window's contents
 layout = [[sg.Text('Press Ctrl', key='display_text', font=("Helvetica", "10"))],
-          [sg.Button('Start', key='btn_start', tooltip='Start/Stop <SHIFT>'),sg.Button('Erase', key='btn_erase', disabled=True), sg.Button('Reset', key='btn_reset'), sg.Button('Quit')],
+          [sg.Button('Start', key='btn_start', disabled=True, tooltip='Start/Stop <SHIFT>'),sg.Button('Erase', key='btn_erase', disabled=True), sg.Button('Reset', key='btn_reset', disabled=True), sg.Button('Quit')],
           [sg.Listbox([], size=(25, 5), enable_events=True, key='cords_list')],
           [[sg.Text('Record click cord <CTRL> Start/Stop script <SHIFT>', key='info_text', font=("Helvetica", "8"),size=(25, 5))]]]
 # Create the window
