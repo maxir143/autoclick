@@ -7,7 +7,6 @@ from playsound import playsound
 import os
 import PySimpleGUI as sg
 
-global state, points_in_screen, sound, mouse, flag, flags_state
 mouse = Controller()
 points_in_screen = []
 state = 0
@@ -120,12 +119,13 @@ def startClick(message='Starting task'):
 
 def resetClick():
     global state, points_in_screen
-    state = 0
-    points_in_screen = []
-    flags_state[flag] = False
-    updateCordListUi(points_in_screen)
-    printInUi('Coords reset successfully')
-    playSound('pause.wav')
+    if state != 1:
+        state = 0
+        points_in_screen = []
+        flags_state[flag] = False
+        updateCordListUi(points_in_screen)
+        printInUi('Coords reset successfully')
+        playSound('pause.wav')
 
 
 def end():
