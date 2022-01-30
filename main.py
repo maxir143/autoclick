@@ -48,8 +48,10 @@ def falseClick(iter):
 
 
 def moveMousePosUi():
-    index = window["cords_list"].Widget.curselection()[0]
-    mouse.position = points_in_screen[index]
+    index = window["cords_list"].Widget.curselection()
+    if index:
+        index = index[0]
+        mouse.position = points_in_screen[index]
 
 
 def recordClick():
