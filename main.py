@@ -124,7 +124,8 @@ def resetClick():
     if state != 1:
         state = 0
         points_in_screen = []
-        flags_state[flag] = False
+        if flags_state:
+            flags_state[flag] = False
         updateCordListUi(points_in_screen)
         printInUi('Coords reset successfully')
         playSound('pause.wav')
