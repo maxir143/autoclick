@@ -3,12 +3,10 @@ import sys
 from pynput.mouse import Button, Controller
 from pynput import keyboard
 import threading
-from playsound import playsound
-import os
 import PySimpleGUI as sg
 
 
-class autoclick:
+class AutoClick:
     def __init__(self):
         self.mouse = Controller()
         self.points_in_screen = []
@@ -16,16 +14,12 @@ class autoclick:
         self.sound = 0
         self.flag = 0
         self.flags_state = []
-
-        # Define the self.window's contents
         self.layout = [[sg.Titlebar('Auto Click')],
                        [sg.Text('<Ctrl> to record coordinate', key='display_text', font=("Helvetica", "10"))],
                        [sg.Button('Start', key='btn_start', disabled=True, tooltip='Start/Stop <SHIFT>'), sg.Button('Erase', key='btn_erase', disabled=True), sg.Button('Reset', key='btn_reset', disabled=True), sg.Button('Quit')],
                        [sg.Listbox([], size=(25, 5), enable_events=True, key='cords_list')],
                        [[sg.Text('Record coordinate <CTRL> \rStart / Stop script <SHIFT>', key='info_text', font=("Helvetica", "8"), size=(25, 5))]]]
-        # Create the self.window
         self.window = sg.Window('Auto Click', self.layout, size=(220, 200), disable_minimize=True, return_keyboard_events=True, use_default_focus=True)
-        # working main self.window
 
     def printInUi(self, txt=None):
             try:
@@ -131,5 +125,8 @@ class autoclick:
                 self.window.TKroot.focus_force()
 
 
+'''
+QUICK START
 click = autoclick()
 click.run()
+'''
